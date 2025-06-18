@@ -1,0 +1,26 @@
+<div class="forum-wrapper py-5 px-3">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h1 class="display-5 fw-bold">💬 Dev Hub</h1>
+      <p class="text-muted">Partagez vos idées, répondez aux autres et échangeons ensemble.</p>
+    </div>
+
+    <!-- Formulaire de commentaire -->
+    <div class="card shadow-sm p-4 mb-5">
+      <h4 class="mb-3">Ajouter un commentaire</h4>
+      <textarea [(ngModel)]="newComment" rows="3" class="form-control mb-3" placeholder="Votre message..."></textarea>
+      <div class="text-end">
+        <button class="btn btn-primary px-4" (click)="addComment()">Envoyer</button>
+      </div>
+    </div>
+<!-- Liste des commentaires -->
+    <div *ngIf="comments.length === 0" class="text-center text-muted">Aucun commentaire pour le moment.</div>
+    <div *ngFor="let comment of comments">
+      <app-comment
+        [comment]="comment"
+        (commentUpdate)="saveComments()"
+      ></app-comment>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,53 @@
+<div class="card shadow-sm p-3 mb-3" [style.marginLeft.px]="depth * 25">
+  <div class="d-flex align-items-center justify-content-between mb-2">
+    <div class="d-flex align-items-center gap-2">
+      <div class="avatar bg-primary text-white fw-bold rounded-circle d-flex justify-content-center align-items-center">
+        {{ comment.author[0] }}
+      </div>
+      <div>
+        <strong>{{ comment.author }}</strong><br>
+        <small class="text-muted">{{ comment.timestamp | date:'short' }}</small>
+      </div>
+    </div>
+  </div>
+
+  <p class="mb-2">{{ comment.message }}</p>
+
+  <div class="d-flex align-items-center gap-3">
+    <button class="btn btn-sm btn-outline-success" (click)="like()">
+      <i class="bi bi-hand-thumbs-up-fill"></i> {{ comment.likes || 0 }}
+    </button>
+
+    <button class="btn btn-sm btn-outline-danger" (click)="dislike()">
+      <i class="bi bi-hand-thumbs-down-fill"></i> {{ comment.dislikes || 0 }}
+    </button>
+
+    <button class="btn btn-sm btn-link" (click)="showReplyField = !showReplyField">
+      <i class="bi bi-reply-fill"></i>Répondre
+    </button>
+  </div>
+
+  <!-- Réponse -->
+  <div *ngIf="showReplyField" class="mt-3">
+    <textarea [(ngModel)]="replyText" rows="2" class="form-control mb-2" placeholder="Votre réponse..."></textarea>
+    <div class="text-end">
+      <button class="btn btn-sm btn-secondary" (click)="addReply()">Envoyer</button>
+    </div>
+  </div>
+  <!-- Afficher / Masquer les réponses -->
+  <div *ngIf="comment.replies && comment.replies.length > 0" class="mt-2">
+    <button class="btn btn-sm btn-outline-secondary" (click)="showReplies = !showReplies">
+      <i class="bi" [ngClass]="showReplies ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
+      {{ showReplies ? 'Masquer les réponses' : 'Afficher les réponses' }} ({{ comment.replies.length }})
+    </button>
+  </div>
+
+  <div *ngIf="showReplies && comment.replies?.length" class="ms-4 mt-2">
+    <app-comment
+      *ngFor="let reply of comment.replies"
+      [comment]="reply"
+      [depth]="depth + 1"
+      (commentUpdate)="commentUpdate.emit()"
+    ></app-comment>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+.card {
+  border-radius: 12px;
+}
+
+textarea {
+  resize: none;
+}
+
+button:active {
+  transform: scale(0.97);
+  transition: transform 0.1s ease;
+}
+  
